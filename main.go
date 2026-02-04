@@ -2,7 +2,7 @@ package main
 
 import (
 	"go-final-project/pkg/db"
-	"go-final-project/server"
+	"go-final-project/pkg/server"
 	"log"
 )
 
@@ -11,7 +11,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	server.Run()
 	server.Start()
 
 }
