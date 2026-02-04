@@ -2,8 +2,13 @@ package server
 
 import (
 	"fmt"
+	"go-final-project/pkg/api"
 	"net/http"
 )
+
+func Run() {
+	api.Init()
+}
 
 func Start() {
 	fmt.Println("Start working")
