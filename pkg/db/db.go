@@ -21,14 +21,14 @@ func Init(dbFile string) error {
 		install = true
 	}
 
-	if install {
-		db, err := sql.Open("sqlite", dbFile)
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
-		defer db.Close()
+	db, err = sql.Open("sqlite", dbFile)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	// defer db.Close()
 
+	if install {
 		_, err = db.Exec(schema)
 		if err != nil {
 			return err

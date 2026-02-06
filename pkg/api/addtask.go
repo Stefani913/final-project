@@ -3,6 +3,7 @@ package api
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"go-final-project/pkg/db"
 	"log"
 	"net/http"
@@ -65,20 +66,20 @@ func addTaskHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// if task.Title == "" {
-	// 	err := errors.New("Поле не может быть пустым")
-	// 	log.Println(err.Error())
-	// 	writeJson(w, map[string]string{"error": err.Error()})
-	// 	return
-	// }
+	if task.Title == "" {
+		err := errors.New("Поле не может быть пустым")
+		log.Println(err.Error())
+		writeJson(w, map[string]string{"error": err.Error()})
+		return
+	}
 
-	// err = checkDate(&task)
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	writeJson(w, map[string]string{"error": err.Error()})
-	// 	return
-	// }
-
+	err = checkDate(&task)
+	if err != nil {
+		log.Println(err.Error())
+		writeJson(w, map[string]string{"error": err.Error()})
+		return
+	}
+	log.Println(task)
 	id, err := db.AddTask(&task)
 	if err != nil {
 		log.Println(err.Error())

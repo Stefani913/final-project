@@ -38,7 +38,7 @@ func nextDayHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func afterNow(date, now time.Time) bool {
-	return date.After(now)
+	return date.Format(dateLayout) != now.Format(dateLayout) && date.After(now)
 }
 
 func NextDate(now time.Time, dstart string, repeat string) (string, error) {
