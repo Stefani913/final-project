@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	_ "modernc.org/sqlite"
@@ -33,6 +34,8 @@ func Init(dbFile string) error {
 			return err
 		}
 	}
+
+	log.Println("DB is started")
 
 	return nil
 

@@ -1,8 +1,8 @@
 package server
 
 import (
-	"fmt"
 	"go-final-project/pkg/api"
+	"log"
 	"net/http"
 )
 
@@ -11,7 +11,7 @@ func Run() {
 }
 
 func Start() {
-	fmt.Println("Start working")
+	log.Println("Start working")
 	webDir := "./web"
 
 	http.Handle("/", http.FileServer(http.Dir(webDir)))
@@ -20,5 +20,5 @@ func Start() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Stop working")
+	log.Println("Stop working")
 }
