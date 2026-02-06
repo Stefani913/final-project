@@ -18,7 +18,7 @@ func nextDayHandler(w http.ResponseWriter, req *http.Request) {
 	if strings.TrimSpace(nowString) == "" {
 		now = time.Now()
 	} else {
-		if nowParsed, err := time.Parse(dataType, nowString); err != nil {
+		if nowParsed, err := time.Parse(dateLayout, nowString); err != nil {
 			fmt.Println(err)
 			return
 		} else {
@@ -42,7 +42,7 @@ func afterNow(date, now time.Time) bool {
 }
 
 func NextDate(now time.Time, dstart string, repeat string) (string, error) {
-	date, err := time.Parse(dataType, dstart)
+	date, err := time.Parse(dateLayout, dstart)
 	if err != nil {
 		return "", fmt.Errorf("Время не может быть преобразовано в корректную дату: %w", err)
 	}
@@ -85,5 +85,5 @@ func NextDate(now time.Time, dstart string, repeat string) (string, error) {
 		}
 
 	}
-	return date.Format(dataType), nil
+	return date.Format(dateLayout), nil
 }
