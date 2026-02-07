@@ -26,3 +26,32 @@ func AddTask(task *Task) (int64, error) {
 	}
 	return id, err
 }
+
+func Tasks(limit int) ([]*Task, error) {
+	var tasks []*Task
+
+	rows, err := db.Query("SELECT * FROM scheduler ORDER BY date LIMIT :limit",
+		sql.Named("limit", limit),
+	)
+	if err != nil {
+		return tasks, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		task := Task{}
+
+		err := rows.Scan(&task.ID, &task.Date, &task.Title, &task.Comment, &task.Repeat)
+		if err != nil {
+			return tasks, err
+		}
+
+		tasks = append(tasks, &task)
+	}
+
+	if err := rows.Err(); err != nil {
+		return tasks, err
+	}
+
+	return tasks, nil
+}

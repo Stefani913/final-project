@@ -79,7 +79,7 @@ func addTaskHandler(w http.ResponseWriter, r *http.Request) {
 		writeJson(w, map[string]string{"error": err.Error()})
 		return
 	}
-	log.Println(task)
+
 	id, err := db.AddTask(&task)
 	if err != nil {
 		log.Println(err.Error())
