@@ -47,5 +47,5 @@ func editTaskHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJson(w, map[string]string{})
+	writeJson(w, struct{}{})
 }
