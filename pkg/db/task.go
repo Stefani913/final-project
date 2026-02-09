@@ -31,11 +31,11 @@ func AddTask(task *Task) (int64, error) {
 func Tasks(limit int) ([]*Task, error) {
 	var tasks []*Task
 
-	rows, err := db.Query("SELECT * FROM scheduler ORDER BY date LIMIT :limit",
+	rows, err := db.Query("SELECT id, date, title, comment, repeat FROM scheduler ORDER BY date LIMIT :limit",
 		sql.Named("limit", limit),
 	)
 	if err != nil {
-		return tasks, err
+		return nil, err
 	}
 	defer rows.Close()
 
@@ -44,14 +44,14 @@ func Tasks(limit int) ([]*Task, error) {
 
 		err := rows.Scan(&task.ID, &task.Date, &task.Title, &task.Comment, &task.Repeat)
 		if err != nil {
-			return tasks, err
+			return nil, err
 		}
 
 		tasks = append(tasks, &task)
 	}
 
 	if err := rows.Err(); err != nil {
-		return tasks, err
+		return nil, err
 	}
 
 	return tasks, nil
@@ -60,7 +60,7 @@ func Tasks(limit int) ([]*Task, error) {
 func GetTask(id string) (*Task, error) {
 	task := Task{}
 
-	err := db.QueryRow("SELECT * FROM scheduler WHERE id = :id",
+	err := db.QueryRow("SELECT id, date, title, comment, repeat FROM scheduler WHERE id = :id",
 		sql.Named("id", id),
 	).Scan(&task.ID, &task.Date, &task.Title, &task.Comment, &task.Repeat)
 	if err != nil {

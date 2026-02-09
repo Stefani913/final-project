@@ -6,19 +6,20 @@ import (
 	"net/http"
 )
 
-func Run() {
+func Init() {
 	api.Init()
 }
 
+const port = ":7540"
+
 func Start() {
-	log.Println("Start working")
+	log.Printf("Start working port %s\n", port)
 	webDir := "./web"
 
 	http.Handle("/", http.FileServer(http.Dir(webDir)))
 
-	err := http.ListenAndServe(":7540", nil)
+	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		panic(err)
 	}
-	log.Println("Stop working")
 }
