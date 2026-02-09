@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"go-final-project/pkg/db"
 	"log"
 	"net/http"
+
+	"go-final-project/pkg/db"
 )
 
 func editTaskHandler(w http.ResponseWriter, r *http.Request) {
