@@ -1,9 +1,10 @@
 package api
 
 import (
-	"go-final-project/pkg/db"
 	"log"
 	"net/http"
+
+	"go-final-project/pkg/db"
 )
 
 func getTaskHandler(w http.ResponseWriter, r *http.Request) {

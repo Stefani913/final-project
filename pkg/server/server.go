@@ -1,9 +1,10 @@
 package server
 
 import (
-	"go-final-project/pkg/api"
 	"log"
 	"net/http"
+
+	"go-final-project/pkg/api"
 )
 
 func Init() {

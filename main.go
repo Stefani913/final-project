@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"go-final-project/pkg/db"
 	"go-final-project/pkg/server"
-	"log"
 )
 
 func main() {
