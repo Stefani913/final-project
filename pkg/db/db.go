@@ -26,11 +26,11 @@ func Init(dbFile string) error {
 		fmt.Println(err)
 		return err
 	}
-	// defer db.Close()
 
 	if install {
 		_, err = db.Exec(schema)
 		if err != nil {
+			defer db.Close()
 			return err
 		}
 	}
@@ -38,5 +38,8 @@ func Init(dbFile string) error {
 	log.Println("DB is started")
 
 	return nil
+}
 
+func Close() {
+	db.Close()
 }

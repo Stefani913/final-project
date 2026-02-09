@@ -12,15 +12,15 @@ func deleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	_, err := db.GetTask(id)
 	if err != nil {
 		log.Println(err)
-		writeJson(w, map[string]string{"error": err.Error()})
+		writeJson(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return
 	}
 
 	err = db.DeleteTask(id)
 	if err != nil {
 		log.Println(err.Error())
-		writeJson(w, map[string]string{"error": err.Error()})
+		writeJson(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return
 	}
-	writeJson(w, struct{}{})
+	writeJson(w, http.StatusOK, struct{}{})
 }

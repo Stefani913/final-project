@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func writeJson(w http.ResponseWriter, data any) {
+func writeJson(w http.ResponseWriter, status int, data any) {
 	resp, err := json.Marshal(data)
 	if err != nil {
 		log.Println(err.Error())
@@ -20,7 +20,7 @@ func writeJson(w http.ResponseWriter, data any) {
 	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(status)
 	w.Write(resp)
 }
 
@@ -56,36 +56,36 @@ func addTaskHandler(w http.ResponseWriter, r *http.Request) {
 	_, err := buf.ReadFrom(r.Body)
 	if err != nil {
 		log.Println(err.Error())
-		writeJson(w, map[string]string{"error": err.Error()})
+		writeJson(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
 		return
 	}
 
 	if err := json.Unmarshal(buf.Bytes(), &task); err != nil {
 		log.Println(err.Error())
-		writeJson(w, map[string]string{"error": err.Error()})
+		writeJson(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
 		return
 	}
 
 	if task.Title == "" {
 		err := errors.New("Поле не может быть пустым")
 		log.Println(err.Error())
-		writeJson(w, map[string]string{"error": err.Error()})
+		writeJson(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
 		return
 	}
 
 	err = checkDate(&task)
 	if err != nil {
 		log.Println(err.Error())
-		writeJson(w, map[string]string{"error": err.Error()})
+		writeJson(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
 		return
 	}
 
 	id, err := db.AddTask(&task)
 	if err != nil {
 		log.Println(err.Error())
-		writeJson(w, map[string]string{"error": err.Error()})
+		writeJson(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return
 	}
 
-	writeJson(w, map[string]string{"id": strconv.FormatInt(id, 10)})
+	writeJson(w, http.StatusOK, map[string]string{"id": strconv.FormatInt(id, 10)})
 }
