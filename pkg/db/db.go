@@ -41,5 +41,5 @@ func Init(dbFile string) error {
 }
 
 func Close() {
-	db.Close()
+	defer db.Close()
 }
