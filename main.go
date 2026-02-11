@@ -10,9 +10,9 @@ import (
 func main() {
 	err := db.Init("scheduler.db")
 	if err != nil {
-		db.Close()
 		log.Fatal(err)
 	}
 	server.Init()
+	defer db.Close()
 	server.Start()
 }
